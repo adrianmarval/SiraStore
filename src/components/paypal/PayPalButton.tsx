@@ -16,9 +16,9 @@ export const PayPalButton = ({ orderId, amount }: Props) => {
 
   if (isPending) {
     return (
-      <div className="animate-pulse mb-16">
-        <div className="h-11 bg-gray-300 rounded" />
-        <div className="h-11 bg-gray-300 rounded mt-2" />
+      <div className="mb-16 animate-pulse">
+        <div className="h-11 rounded bg-gray-300" />
+        <div className="mt-2 h-11 rounded bg-gray-300" />
       </div>
     );
   }

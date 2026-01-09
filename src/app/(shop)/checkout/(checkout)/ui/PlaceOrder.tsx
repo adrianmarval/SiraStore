@@ -1,49 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
-import clsx from 'clsx';
+import { useRouter } from "next/navigation";
+import clsx from "clsx";
 
-import { placeOrder } from '@/actions';
+import { placeOrder } from "@/actions";
 import { useAddressStore, useCartStore } from "@/store";
-import { currencyFormat } from '@/utils';
+import { currencyFormat } from "@/utils";
 
 export const PlaceOrder = () => {
-
   const router = useRouter();
   const [loaded, setLoaded] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
-
-
 
   const address = useAddressStore((state) => state.address);
 
-  const { itemsInCart, subTotal, tax, total } = useCartStore((state) =>
-    state.getSummaryInformation()
-  );
-  const cart = useCartStore( state => state.cart );
-  const clearCart = useCartStore( state => state.clearCart );
+  const { itemsInCart, subTotal, tax, total } = useCartStore((state) => state.getSummaryInformation());
+  const cart = useCartStore((state) => state.cart);
+  const clearCart = useCartStore((state) => state.clearCart);
 
   useEffect(() => {
     setLoaded(true);
   }, []);
 
-
-  const onPlaceOrder = async() => {
+  const onPlaceOrder = async () => {
     setIsPlacingOrder(true);
     // await sleep(2);
 
-    const productsToOrder = cart.map( product => ({
+    const productsToOrder = cart.map((product) => ({
       productId: product.id,
       quantity: product.quantity,
       size: product.size,
-    }))
-
+    }));
 
     //! Server Action
-    const resp = await placeOrder( productsToOrder, address);
-    if ( !resp.ok ) {
+    const resp = await placeOrder(productsToOrder, address);
+    if (!resp.ok) {
       setIsPlacingOrder(false);
       setErrorMessage(resp.message);
       return;
@@ -51,21 +44,16 @@ export const PlaceOrder = () => {
 
     //* Todo salio bien!
     clearCart();
-    router.replace('/orders/' + resp.order?.id );
-
-
-  }
-
-
-
+    router.replace("/orders/" + resp.order?.id);
+  };
 
   if (!loaded) {
     return <p>Cargando...</p>;
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-xl p-7">
-      <h2 className="text-2xl mb-2">Dirección de entrega</h2>
+    <div className="rounded-xl bg-white p-7 shadow-xl">
+      <h2 className="mb-2 text-2xl">Dirección de entrega</h2>
       <div className="mb-10">
         <p className="text-xl">
           {address.firstName} {address.lastName}
@@ -80,15 +68,13 @@ export const PlaceOrder = () => {
       </div>
 
       {/* Divider */}
-      <div className="w-full h-0.5 rounded bg-gray-200 mb-10" />
+      <div className="mb-10 h-0.5 w-full rounded bg-gray-200" />
 
-      <h2 className="text-2xl mb-2">Resumen de orden</h2>
+      <h2 className="mb-2 text-2xl">Resumen de orden</h2>
 
       <div className="grid grid-cols-2">
         <span>No. Productos</span>
-        <span className="text-right">
-          {itemsInCart === 1 ? "1 artículo" : `${itemsInCart} artículos`}
-        </span>
+        <span className="text-right">{itemsInCart === 1 ? "1 artículo" : `${itemsInCart} artículos`}</span>
 
         <span>Subtotal</span>
         <span className="text-right">{currencyFormat(subTotal)}</span>
@@ -97,12 +83,10 @@ export const PlaceOrder = () => {
         <span className="text-right">{currencyFormat(tax)}</span>
 
         <span className="mt-5 text-2xl">Total:</span>
-        <span className="mt-5 text-2xl text-right">
-          {currencyFormat(total)}
-        </span>
+        <span className="mt-5 text-right text-2xl">{currencyFormat(total)}</span>
       </div>
 
-      <div className="mt-5 mb-2 w-full">
+      <div className="mb-2 mt-5 w-full">
         <p className="mb-5">
           {/* Disclaimer */}
           <span className="text-xs">
@@ -117,18 +101,15 @@ export const PlaceOrder = () => {
           </span>
         </p>
 
-
-        <p className="text-red-500">{ errorMessage }</p>
+        <p className="text-red-500">{errorMessage}</p>
 
         <button
           // href="/orders/123"
-          onClick={ onPlaceOrder }
-          className={
-            clsx({
-              'btn-primary': !isPlacingOrder,
-              'btn-disabled': isPlacingOrder
-            })
-          }
+          onClick={onPlaceOrder}
+          className={clsx({
+            "btn-primary": !isPlacingOrder,
+            "btn-disabled": isPlacingOrder,
+          })}
         >
           Colocar orden
         </button>

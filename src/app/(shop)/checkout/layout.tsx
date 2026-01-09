@@ -1,10 +1,7 @@
-import { auth } from '@/auth.config';
-import { redirect } from 'next/navigation';
+import { auth } from "@/auth.config";
+import { redirect } from "next/navigation";
 
-export default async function CheckoutLayout({children}: {
- children: React.ReactNode;
-}) {
-
+export default async function CheckoutLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
 
   if (!session?.user) {
@@ -12,10 +9,5 @@ export default async function CheckoutLayout({children}: {
     redirect("/auth/login?redirectTo=/checkout/address");
   }
 
-  
-  return (
-    <>
-    { children }
-    </>
-  );
+  return <>{children}</>;
 }

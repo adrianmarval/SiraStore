@@ -3,19 +3,19 @@ import Link from "next/link";
 import { Title } from "@/components";
 import Image from "next/image";
 import { ProductsInCart } from "./ui/ProductsInCart";
-import { PlaceOrder } from './ui/PlaceOrder';
+import { PlaceOrder } from "./ui/PlaceOrder";
 
 export default function CheckoutPage() {
   return (
-    <div className="flex justify-center items-center mb-72 px-10 sm:px-0">
-      <div className="flex flex-col w-[1000px]">
+    <div className="mb-72 flex items-center justify-center px-10 sm:px-0">
+      <div className="flex w-[1000px] flex-col">
         <Title title="Verificar orden" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
           {/* Carrito */}
-          <div className="flex flex-col mt-5">
+          <div className="mt-5 flex flex-col">
             <span className="text-xl">Ajustar elementos</span>
-            <Link href="/cart" className="underline mb-5">
+            <Link href="/cart" className="mb-5 underline">
               Editar carrito
             </Link>
 

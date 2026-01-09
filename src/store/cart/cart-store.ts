@@ -105,6 +105,6 @@ export const useCartStore = create<State>()(
           removeItem: () => {},
         };
       }),
-    }
-  )
+    },
+  ),
 );

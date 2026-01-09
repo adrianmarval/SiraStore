@@ -21,47 +21,30 @@ export default async function OrdersPage() {
 
       <div className="mb-10">
         <table className="min-w-full">
-          <thead className="bg-gray-200 border-b">
+          <thead className="border-b bg-gray-200">
             <tr>
-              <th
-                scope="col"
-                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-              >
+              <th scope="col" className="px-6 py-4 text-left text-sm font-medium text-gray-900">
                 #ID
               </th>
-              <th
-                scope="col"
-                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-              >
+              <th scope="col" className="px-6 py-4 text-left text-sm font-medium text-gray-900">
                 Nombre completo
               </th>
-              <th
-                scope="col"
-                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-              >
+              <th scope="col" className="px-6 py-4 text-left text-sm font-medium text-gray-900">
                 Estado
               </th>
-              <th
-                scope="col"
-                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-              >
+              <th scope="col" className="px-6 py-4 text-left text-sm font-medium text-gray-900">
                 Opciones
               </th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
-              <tr
-                key={order.id}
-                className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-              >
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {order.id.split("-").at(-1)}
-                </td>
-                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <tr key={order.id} className="border-b bg-white transition duration-300 ease-in-out hover:bg-gray-100">
+                <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">{order.id.split("-").at(-1)}</td>
+                <td className="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900">
                   {order.OrderAddress?.firstName} {order.OrderAddress?.lastName}
                 </td>
-                <td className="flex items-center text-sm  text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                <td className="flex items-center whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900">
                   {order.isPaid ? (
                     <>
                       <IoCardOutline className="text-green-800" />
@@ -74,15 +57,13 @@ export default async function OrdersPage() {
                     </>
                   )}
                 </td>
-                <td className="text-sm text-gray-900 font-light px-6 ">
-                  <Link href={`/orders/${ order.id }`} className="hover:underline">
+                <td className="px-6 text-sm font-light text-gray-900">
+                  <Link href={`/orders/${order.id}`} className="hover:underline">
                     Ver orden
                   </Link>
                 </td>
               </tr>
             ))}
-
-            
           </tbody>
         </table>
       </div>

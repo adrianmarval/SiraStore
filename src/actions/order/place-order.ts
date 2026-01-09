@@ -10,10 +10,7 @@ interface ProductToOrder {
   size: Size;
 }
 
-export const placeOrder = async (
-  productIds: ProductToOrder[],
-  address: Address
-) => {
+export const placeOrder = async (productIds: ProductToOrder[], address: Address) => {
   const session = await auth();
   const userId = session?.user.id;
 
@@ -54,19 +51,16 @@ export const placeOrder = async (
 
       return totals;
     },
-    { subTotal: 0, tax: 0, total: 0 }
+    { subTotal: 0, tax: 0, total: 0 },
   );
 
   // Crear la transacción de base de datos
   try {
-
     const prismaTx = await prisma.$transaction(async (tx) => {
       // 1. Actualizar el stock de los productos
       const updatedProductsPromises = products.map((product) => {
         //  Acumular los valores
-        const productQuantity = productIds
-          .filter((p) => p.productId === product.id)
-          .reduce((acc, item) => item.quantity + acc, 0);
+        const productQuantity = productIds.filter((p) => p.productId === product.id).reduce((acc, item) => item.quantity + acc, 0);
 
         if (productQuantity === 0) {
           throw new Error(`${product.id} no tiene cantidad definida`);
@@ -107,9 +101,7 @@ export const placeOrder = async (
                 quantity: p.quantity,
                 size: p.size,
                 productId: p.productId,
-                price:
-                  products.find((product) => product.id === p.productId)
-                    ?.price ?? 0,
+                price: products.find((product) => product.id === p.productId)?.price ?? 0,
               })),
             },
           },
@@ -136,14 +128,11 @@ export const placeOrder = async (
       };
     });
 
-
     return {
       ok: true,
       order: prismaTx.order,
       prismaTx: prismaTx,
-    }
-
-
+    };
   } catch (error: any) {
     return {
       ok: false,

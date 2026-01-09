@@ -45,6 +45,6 @@ export const useAddressStore = create<State>()(
           removeItem: () => {},
         };
       }),
-    }
-  )
+    },
+  ),
 );

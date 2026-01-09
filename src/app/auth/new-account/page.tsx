@@ -1,11 +1,10 @@
-import { titleFont } from '@/config/fonts';
-import { RegisterForm } from './ui/RegisterForm';
+import { titleFont } from "@/config/fonts";
+import { RegisterForm } from "./ui/RegisterForm";
 
 export default function NewAccountPage() {
   return (
-    <div className="flex flex-col min-h-screen pt-32 sm:pt-52">
-
-      <h1 className={ `${ titleFont.className } text-4xl mb-5` }>Nueva cuenta</h1>
+    <div className="flex min-h-screen flex-col pt-32 sm:pt-52">
+      <h1 className={`${titleFont.className} mb-5 text-4xl`}>Nueva cuenta</h1>
 
       <RegisterForm />
     </div>

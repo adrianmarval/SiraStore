@@ -19,14 +19,13 @@ interface Props {
 export default async function OrdersPage({ searchParams }: Props) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
 
-  const { products, currentPage, totalPages } =
-    await getPaginatedProductsWithImages({ page });
+  const { products, currentPage, totalPages } = await getPaginatedProductsWithImages({ page });
 
   return (
     <>
       <Title title="Mantenimiento de productos" />
 
-      <div className="flex justify-end mb-5">
+      <div className="mb-5 flex justify-end">
         <Link href="/admin/product/new" className="btn-primary">
           Nuevo producto
         </Link>
@@ -34,86 +33,54 @@ export default async function OrdersPage({ searchParams }: Props) {
 
       <div className="mb-10">
         <table className="min-w-full">
-          <thead className="bg-gray-200 border-b">
+          <thead className="border-b bg-gray-200">
             <tr>
-              <th
-                scope="col"
-                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-              >
+              <th scope="col" className="px-6 py-4 text-left text-sm font-medium text-gray-900">
                 Imagen
               </th>
-              <th
-                scope="col"
-                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-              >
+              <th scope="col" className="px-6 py-4 text-left text-sm font-medium text-gray-900">
                 Titulo
               </th>
-              <th
-                scope="col"
-                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-              >
+              <th scope="col" className="px-6 py-4 text-left text-sm font-medium text-gray-900">
                 Precio
               </th>
-              <th
-                scope="col"
-                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-              >
+              <th scope="col" className="px-6 py-4 text-left text-sm font-medium text-gray-900">
                 Género
               </th>
-              <th
-                scope="col"
-                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-              >
+              <th scope="col" className="px-6 py-4 text-left text-sm font-medium text-gray-900">
                 Inventario
               </th>
-              <th
-                scope="col"
-                className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-              >
+              <th scope="col" className="px-6 py-4 text-left text-sm font-medium text-gray-900">
                 Tallas
               </th>
             </tr>
           </thead>
           <tbody>
             {products.map((product) => (
-              <tr
-                key={product.id}
-                className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-              >
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <tr key={product.id} className="border-b bg-white transition duration-300 ease-in-out hover:bg-gray-100">
+                <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
                   <Link href={`/product/${product.slug}`}>
                     <ProductImage
-                      src={ product.ProductImage[0]?.url }
+                      src={product.ProductImage[0]?.url}
                       width={80}
                       height={80}
                       alt={product.title}
-                      className="w-20 h-20 object-cover rounded"
+                      className="h-20 w-20 rounded object-cover"
                     />
                   </Link>
                 </td>
-                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  <Link
-                    href={`/admin/product/${product.slug}`}
-                    className="hover:underline"
-                  >
+                <td className="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900">
+                  <Link href={`/admin/product/${product.slug}`} className="hover:underline">
                     {product.title}
                   </Link>
                 </td>
-                <td className="text-sm font-bold  text-gray-900 px-6 py-4 whitespace-nowrap">
-                  {currencyFormat(product.price)}
-                </td>
+                <td className="whitespace-nowrap px-6 py-4 text-sm font-bold text-gray-900">{currencyFormat(product.price)}</td>
 
-                <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {product.gender}
-                </td>
+                <td className="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900">{product.gender}</td>
 
-                <td className="text-sm text-gray-900 font-bold px-6 py-4 whitespace-nowrap">
-                  {product.inStock}
-                </td>
+                <td className="whitespace-nowrap px-6 py-4 text-sm font-bold text-gray-900">{product.inStock}</td>
 
-                <td className="text-sm text-gray-900 font-bold px-6 py-4 whitespace-nowrap">
-                  {product.sizes.join(", ")}
-                </td>
+                <td className="whitespace-nowrap px-6 py-4 text-sm font-bold text-gray-900">{product.sizes.join(", ")}</td>
               </tr>
             ))}
           </tbody>

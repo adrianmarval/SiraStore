@@ -22,19 +22,12 @@ export const StockLabel = ({ slug }: Props) => {
     getStock();
   }, [slug]);
 
-
   return (
     <>
       {isLoading ? (
-        <h1
-          className={` ${titleFont.className} antialiased font-bold text-lg bg-gray-200 animate-pulse `}
-        >
-          &nbsp;
-        </h1>
+        <h1 className={` ${titleFont.className} animate-pulse bg-gray-200 text-lg font-bold antialiased`}>&nbsp;</h1>
       ) : (
-        <h1 className={` ${titleFont.className} antialiased font-bold text-lg`}>
-          Stock: {stock}
-        </h1>
+        <h1 className={` ${titleFont.className} text-lg font-bold antialiased`}>Stock: {stock}</h1>
       )}
     </>
   );
