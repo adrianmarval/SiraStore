@@ -28,45 +28,28 @@ interface InvoiceWebProps {
   tax: number;
   total: number;
   locale?: string;
+  taxRate?: number;
 }
 
-export const InvoiceWeb = ({ orderId, orderDate, billingAddress, products, subTotal, tax, total, locale = "es" }: InvoiceWebProps) => {
-  const messages = {
-    es: {
-      invoice: "FACTURA",
-      officialDoc: "Documento Oficial",
-      order: "Orden #",
-      billTo: "Facturado a",
-      from: "De",
-      product: "Producto",
-      qty: "Cant.",
-      price: "Precio",
-      total: "Total",
-      subtotal: "Subtotal",
-      taxes: "Impuestos (15%)",
-      print: "Imprimir Factura",
-      footer1: "Gracias por confiar en CrowdFast Store.",
-      footer2: "Si tiene alguna duda sobre esta factura, por favor contáctenos a support@crowdfast.store",
-    },
-    en: {
-      invoice: "INVOICE",
-      officialDoc: "Official Document",
-      order: "Order #",
-      billTo: "Bill To",
-      from: "From",
-      product: "Product",
-      qty: "Qty",
-      price: "Price",
-      total: "Total",
-      subtotal: "Subtotal",
-      taxes: "Taxes (15%)",
-      print: "Print Invoice",
-      footer1: "Thank you for trusting CrowdFast Store.",
-      footer2: "If you have any questions about this invoice, please contact us at support@crowdfast.store",
-    },
-  };
+import enMessages from "../../messages/en.json";
+import esMessages from "../../messages/es.json";
 
-  const t = (messages as any)[locale] || messages.es;
+export const InvoiceWeb = ({
+  orderId,
+  orderDate,
+  billingAddress,
+  products,
+  subTotal,
+  tax,
+  total,
+  locale = "es",
+  taxRate,
+}: InvoiceWebProps) => {
+  const t = locale === "es" ? esMessages.Invoice : enMessages.Invoice;
+
+  // Calculate tax percentage if taxRate is not provided
+  // If subTotal is 0, we avoid division by zero
+  const calculatedTaxRate = taxRate ? taxRate * 100 : subTotal > 0 ? Math.round((tax / subTotal) * 100) : 15;
 
   const formattedDate = new Intl.DateTimeFormat(locale, {
     dateStyle: "long",
@@ -75,6 +58,13 @@ export const InvoiceWeb = ({ orderId, orderDate, billingAddress, products, subTo
   const handlePrint = () => {
     window.print();
   };
+
+  // ... (inside return)
+
+  <div className="flex justify-between border-b border-gray-200 py-2">
+    <span className="text-gray-600">{t.taxes.replace("{rate}", calculatedTaxRate.toString())}</span>
+    <span className="font-medium text-gray-900">{currencyFormat(tax, locale)}</span>
+  </div>;
 
   return (
     <div className="min-h-screen bg-gray-100 px-4 py-10 sm:px-6 lg:px-8 print:bg-white print:p-0">
@@ -95,7 +85,7 @@ export const InvoiceWeb = ({ orderId, orderDate, billingAddress, products, subTo
           {/* Header */}
           <div className="mb-12 flex flex-col items-start justify-between sm:flex-row">
             <div>
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900">{t.invoice}</h1>
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900">{t.title}</h1>
               <p className="mt-1 text-gray-500">{t.officialDoc}</p>
             </div>
             <div className="mt-4 text-right sm:mt-0">
@@ -111,7 +101,7 @@ export const InvoiceWeb = ({ orderId, orderDate, billingAddress, products, subTo
           {/* Addresses */}
           <div className="mb-12 grid grid-cols-1 gap-8 sm:grid-cols-2">
             <div>
-              <h2 className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">{t.billTo}</h2>
+              <h2 className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">{t.billedTo}</h2>
               <div className="leading-relaxed text-gray-700">
                 <p className="text-lg font-semibold text-gray-900">
                   {billingAddress.firstName} {billingAddress.lastName}
@@ -141,7 +131,7 @@ export const InvoiceWeb = ({ orderId, orderDate, billingAddress, products, subTo
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-400">{t.product}</th>
-                  <th className="px-4 py-3 text-center text-xs font-bold uppercase tracking-wider text-gray-400">{t.qty}</th>
+                  <th className="px-4 py-3 text-center text-xs font-bold uppercase tracking-wider text-gray-400">{t.quantity}</th>
                   <th className="px-4 py-3 text-right text-xs font-bold uppercase tracking-wider text-gray-400">{t.price}</th>
                   <th className="px-4 py-3 text-right text-xs font-bold uppercase tracking-wider text-gray-400">{t.total}</th>
                 </tr>
@@ -176,7 +166,7 @@ export const InvoiceWeb = ({ orderId, orderDate, billingAddress, products, subTo
                 <span className="font-medium text-gray-900">{currencyFormat(subTotal, locale)}</span>
               </div>
               <div className="flex justify-between border-b border-gray-200 py-2">
-                <span className="text-gray-600">{t.taxes}</span>
+                <span className="text-gray-600">{t.taxes.replace("{rate}", calculatedTaxRate.toString())}</span>
                 <span className="font-medium text-gray-900">{currencyFormat(tax, locale)}</span>
               </div>
               <div className="flex justify-between py-4">
@@ -190,8 +180,8 @@ export const InvoiceWeb = ({ orderId, orderDate, billingAddress, products, subTo
 
           {/* Footer */}
           <div className="text-center text-sm text-gray-500">
-            <p className="mb-2">{t.footer1}</p>
-            <p>{t.footer2}</p>
+            <p className="mb-2">{t.webFooter1}</p>
+            <p>{t.webFooter2}</p>
           </div>
         </div>
       </div>

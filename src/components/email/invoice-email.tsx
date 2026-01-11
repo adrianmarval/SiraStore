@@ -1,6 +1,8 @@
 import { Body, Container, Column, Head, Heading, Html, Img, Preview, Row, Section, Text, Hr } from "@react-email/components";
 import * as React from "react";
 import { currencyFormat } from "@/utils/currencyFormat";
+import enMessages from "../../messages/en.json";
+import esMessages from "../../messages/es.json";
 
 interface InvoiceEmailProps {
   orderId: string;
@@ -25,6 +27,7 @@ interface InvoiceEmailProps {
   subTotal: number;
   tax: number;
   total: number;
+  taxRate?: number;
 }
 
 export const InvoiceEmail = ({
@@ -37,38 +40,14 @@ export const InvoiceEmail = ({
   subTotal,
   tax,
   total,
+  taxRate,
 }: InvoiceEmailProps) => {
-  const messages = {
-    es: {
-      invoice: "FACTURA",
-      order: "Orden",
-      billedTo: "Facturado a:",
-      from: "De:",
-      product: "Producto",
-      quantity: "Cant.",
-      price: "Precio",
-      total: "Total",
-      subtotal: "Subtotal",
-      taxes: "Impuestos (15%)",
-      footer: "Gracias por su compra. Si tiene alguna pregunta sobre esta factura, por favor contáctenos.",
-    },
-    en: {
-      invoice: "INVOICE",
-      order: "Order",
-      billedTo: "Billed to:",
-      from: "From:",
-      product: "Product",
-      quantity: "Qty.",
-      price: "Price",
-      total: "Total",
-      subtotal: "Subtotal",
-      taxes: "Taxes (15%)",
-      footer: "Thank you for your purchase. If you have any questions about this invoice, please contact us.",
-    },
-  };
-
-  const t = messages[locale] || messages.es;
+  const t = locale === "es" ? esMessages.Invoice : enMessages.Invoice;
   const currency = "USD"; // Assuming USD for now, or pass as prop if dynamic
+
+  // Calculate tax percentage if taxRate is not provided
+  // If subTotal is 0, we avoid division by zero
+  const calculatedTaxRate = taxRate ? taxRate * 100 : subTotal > 0 ? Math.round((tax / subTotal) * 100) : 15;
 
   const formattedDate = new Intl.DateTimeFormat(locale === "es" ? "es-ES" : "en-US", {
     dateStyle: "long",
@@ -78,18 +57,18 @@ export const InvoiceEmail = ({
     <Html>
       <Head />
       <Preview>
-        {t.invoice} #{invoiceId.toString().padStart(6, "0")}
+        {t.title} #{invoiceId.toString().padStart(6, "0")}
       </Preview>
       <Body style={main}>
         <Container style={container}>
           <Section>
             <Row>
               <Column>
-                <Heading style={heading}>{t.invoice}</Heading>
+                <Heading style={heading}>{t.title}</Heading>
               </Column>
               <Column align="right">
                 <Text style={headingDetails}>
-                  {t.invoice} #{invoiceId.toString().padStart(6, "0")}
+                  {t.title} #{invoiceId.toString().padStart(6, "0")}
                   <br />
                   {formattedDate}
                 </Text>
@@ -181,7 +160,7 @@ export const InvoiceEmail = ({
                 </Row>
                 <Row>
                   <Column>
-                    <Text style={summaryLabel}>{t.taxes}:</Text>
+                    <Text style={summaryLabel}>{t.taxes.replace("{rate}", calculatedTaxRate.toString())}:</Text>
                   </Column>
                   <Column align="right">
                     <Text style={summaryValue}>{currencyFormat(tax, locale, currency)}</Text>
@@ -202,7 +181,7 @@ export const InvoiceEmail = ({
 
           <Hr style={hr} />
 
-          <Text style={footer}>{t.footer}</Text>
+          <Text style={footer}>{t.emailFooter}</Text>
         </Container>
       </Body>
     </Html>

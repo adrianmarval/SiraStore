@@ -51,7 +51,8 @@
     "item": "item",
     "items": "items",
     "subtotal": "Subtotal",
-    "taxes": "Taxes (15%)",
+    "taxes": "Taxes ({rate}%)",
+    "total": "Total",
     "total": "Total",
     "viewElectronicInvoice": "View Electronic Invoice"
   },
@@ -92,6 +93,23 @@
     "orderConfirmationSubject": "Order #{orderId} - Order Confirmation",
     "paymentReceiptSubject": "Order #{orderId} - Payment Receipt",
     "invoiceSubject": "Invoice for Order #{orderId} - Crowdfast Store"
+  },
+  "Invoice": {
+    "title": "INVOICE",
+    "officialDoc": "Official Document",
+    "order": "Order",
+    "billedTo": "Billed to:",
+    "from": "From:",
+    "product": "Product",
+    "quantity": "Qty.",
+    "price": "Price",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "taxes": "Taxes ({rate}%)",
+    "print": "Print Invoice",
+    "emailFooter": "Thank you for your purchase. If you have any questions about this invoice, please contact us.",
+    "webFooter1": "Thank you for trusting CrowdFast Store.",
+    "webFooter2": "If you have any questions about this invoice, please contact us at support@crowdfast.store"
   },
   "PrivacyPolicy": {
     "title": "Privacy Policy",

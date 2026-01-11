@@ -1,5 +1,6 @@
 "use server";
 import prisma from "@/lib/prisma";
+import { TAX_RATE } from "@/config/constants";
 
 import { auth } from "@/auth.config";
 import type { Address, Size } from "@/interfaces";
@@ -53,8 +54,8 @@ export const placeOrder = async (productIds: ProductToOrder[], address: Address,
       const subTotal = product.price * productQuantity;
 
       totals.subTotal += subTotal;
-      totals.tax += subTotal * 0.15;
-      totals.total += subTotal * 1.15;
+      totals.tax += subTotal * TAX_RATE;
+      totals.total += subTotal * (1 + TAX_RATE);
 
       return totals;
     },
@@ -100,6 +101,7 @@ export const placeOrder = async (productIds: ProductToOrder[], address: Address,
           itemsInOrder: itemsInOrder,
           subTotal: subTotal,
           tax: tax,
+          taxRate: TAX_RATE,
           total: total,
 
           OrderItem: {

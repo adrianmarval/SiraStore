@@ -2,6 +2,7 @@
 
 import { useCartStore } from "@/store";
 import { currencyFormat } from "@/utils";
+import { TAX_RATE } from "@/config/constants";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -35,7 +36,7 @@ export const OrderSummary = () => {
       <span>{locale === "en" ? "Subtotal" : "Subtotal"}</span>
       <span className="text-right">{currencyFormat(subTotal, locale)}</span>
 
-      <span>{locale === "en" ? "Taxes (15%)" : "Impuestos (15%)"}</span>
+      <span>{locale === "en" ? `Taxes (${TAX_RATE * 100}%)` : `Impuestos (${TAX_RATE * 100}%)`}</span>
       <span className="text-right">{currencyFormat(tax, locale)}</span>
 
       <span className="mt-5 text-2xl">{locale === "en" ? "Total:" : "Total:"}</span>

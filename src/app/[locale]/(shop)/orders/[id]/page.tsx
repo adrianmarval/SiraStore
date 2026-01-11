@@ -91,7 +91,7 @@ export default async function OrdersByIdPage({ params }: Props) {
               <span>{t("subtotal")}</span>
               <span className="text-right">{currencyFormat(order!.subTotal, params.locale)}</span>
 
-              <span>{t("taxes")} (15%)</span>
+              <span>{t("taxes", { rate: (order!.taxRate * 100).toString() })}</span>
               <span className="text-right">{currencyFormat(order!.tax, params.locale)}</span>
 
               <span className="mt-5 text-2xl">{t("total")}:</span>
