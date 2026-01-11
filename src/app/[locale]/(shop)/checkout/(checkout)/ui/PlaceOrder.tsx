@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import clsx from "clsx";
@@ -7,6 +6,7 @@ import clsx from "clsx";
 import { placeOrder } from "@/actions";
 import { useAddressStore, useCartStore } from "@/store";
 import { currencyFormat } from "@/utils";
+import { useTranslations } from "next-intl";
 
 export const PlaceOrder = () => {
   const router = useRouter();
@@ -23,6 +23,9 @@ export const PlaceOrder = () => {
   const cart = useCartStore((state) => state.cart);
   const clearCart = useCartStore((state) => state.clearCart);
 
+  const tOrder = useTranslations("Order");
+  const tCheckout = useTranslations("Checkout");
+
   useEffect(() => {
     setLoaded(true);
   }, []);
@@ -38,7 +41,7 @@ export const PlaceOrder = () => {
     }));
 
     //! Server Action
-    const resp = await placeOrder(productsToOrder, address);
+    const resp = await placeOrder(productsToOrder, address, locale as "es" | "en");
     if (!resp.ok) {
       setIsPlacingOrder(false);
       setErrorMessage(resp.message);
@@ -56,7 +59,7 @@ export const PlaceOrder = () => {
 
   return (
     <div className="rounded-xl bg-white p-7 shadow-xl">
-      <h2 className="mb-2 text-2xl">Dirección de entrega</h2>
+      <h2 className="mb-2 text-2xl">{tOrder("deliveryAddress")}</h2>
       <div className="mb-10">
         <p className="text-xl">
           {address.firstName} {address.lastName}
@@ -73,19 +76,19 @@ export const PlaceOrder = () => {
       {/* Divider */}
       <div className="mb-10 h-0.5 w-full rounded bg-gray-200" />
 
-      <h2 className="mb-2 text-2xl">Resumen de orden</h2>
+      <h2 className="mb-2 text-2xl">{tOrder("orderSummary")}</h2>
 
       <div className="grid grid-cols-2">
-        <span>No. Productos</span>
-        <span className="text-right">{itemsInCart === 1 ? "1 artículo" : `${itemsInCart} artículos`}</span>
+        <span>{tOrder("itemsCount")}</span>
+        <span className="text-right">{itemsInCart === 1 ? `1 ${tOrder("item")}` : `${itemsInCart} ${tOrder("items")}`}</span>
 
-        <span>Subtotal</span>
+        <span>{tOrder("subtotal")}</span>
         <span className="text-right">{currencyFormat(subTotal, locale)}</span>
 
-        <span>Impuestos (15%)</span>
+        <span>{tOrder("taxes")}</span>
         <span className="text-right">{currencyFormat(tax, locale)}</span>
 
-        <span className="mt-5 text-2xl">Total:</span>
+        <span className="mt-5 text-2xl">{tOrder("total")}</span>
         <span className="mt-5 text-right text-2xl">{currencyFormat(total, locale)}</span>
       </div>
 
@@ -93,13 +96,13 @@ export const PlaceOrder = () => {
         <p className="mb-5">
           {/* Disclaimer */}
           <span className="text-xs">
-            Al hacer clic en &quot;Colocar orden&quot;, aceptas nuestros{" "}
+            {tCheckout("disclaimer")}{" "}
             <a href="#" className="underline">
-              términos y condiciones
+              {tCheckout("terms")}
             </a>{" "}
             y{" "}
             <a href="#" className="underline">
-              política de privacidad
+              {tCheckout("privacy")}
             </a>
           </span>
         </p>
@@ -114,7 +117,7 @@ export const PlaceOrder = () => {
             "btn-disabled": isPlacingOrder,
           })}
         >
-          Colocar orden
+          {tCheckout("placeOrder")}
         </button>
       </div>
     </div>

@@ -5,7 +5,7 @@ import { PayPalOrderStatusResponse } from "@/interfaces";
 import { revalidatePath } from "next/cache";
 import { sentPaymentConfirmationEmail, sendInvoiceEmail } from "@/services/mail";
 
-export const paypalCheckPayment = async (paypalTransactionId: string) => {
+export const paypalCheckPayment = async (paypalTransactionId: string, locale: "es" | "en" = "es") => {
   const authToken = await getPayPalBearerToken();
 
   if (!authToken) {
@@ -98,8 +98,7 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
             image: item.product.ProductImage[0]?.url || "",
           })),
           invoice.id,
-          // TODO: Get user locale from DB if available or default to "es"
-          "es",
+          locale,
         );
       }
     } catch (error) {

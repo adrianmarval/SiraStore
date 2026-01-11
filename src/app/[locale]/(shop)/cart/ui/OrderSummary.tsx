@@ -27,16 +27,18 @@ export const OrderSummary = () => {
 
   return (
     <div className="grid grid-cols-2">
-      <span>No. Productos</span>
-      <span className="text-right">{itemsInCart === 1 ? "1 artículo" : `${itemsInCart} artículos`}</span>
+      <span>{locale === "en" ? "No. Products" : "No. Productos"}</span>
+      <span className="text-right">
+        {itemsInCart === 1 ? `1 ${locale === "en" ? "item" : "artículo"}` : `${itemsInCart} ${locale === "en" ? "items" : "artículos"}`}
+      </span>
 
-      <span>Subtotal</span>
+      <span>{locale === "en" ? "Subtotal" : "Subtotal"}</span>
       <span className="text-right">{currencyFormat(subTotal, locale)}</span>
 
-      <span>Impuestos (15%)</span>
+      <span>{locale === "en" ? "Taxes (15%)" : "Impuestos (15%)"}</span>
       <span className="text-right">{currencyFormat(tax, locale)}</span>
 
-      <span className="mt-5 text-2xl">Total:</span>
+      <span className="mt-5 text-2xl">{locale === "en" ? "Total:" : "Total:"}</span>
       <span className="mt-5 text-right text-2xl">{currencyFormat(total, locale)}</span>
     </div>
   );

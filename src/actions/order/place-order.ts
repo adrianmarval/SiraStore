@@ -11,7 +11,7 @@ interface ProductToOrder {
   size: Size;
 }
 
-export const placeOrder = async (productIds: ProductToOrder[], address: Address) => {
+export const placeOrder = async (productIds: ProductToOrder[], address: Address, locale: "es" | "en" = "es") => {
   const session = await auth();
 
   const userId = session?.user.id;
@@ -166,7 +166,7 @@ export const placeOrder = async (productIds: ProductToOrder[], address: Address)
           };
         });
 
-        await sentOrderConfirmationEmail(userEmail, order.id, order.total, emailProducts);
+        await sentOrderConfirmationEmail(userEmail, order.id, order.total, emailProducts, locale);
       }
     } catch (error) {
       console.log("Error sending email:", error);

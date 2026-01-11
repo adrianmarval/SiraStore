@@ -51,8 +51,46 @@
     "item": "artículo",
     "items": "artículos",
     "subtotal": "Subtotal",
-    "taxes": "Impuestos",
+    "taxes": "Impuestos (15%)",
     "total": "Total",
     "viewElectronicInvoice": "Ver Factura Electrónica"
+  },
+  "Cart": {
+    "title": "Carrito",
+    "addMoreItems": "Agregar más items",
+    "continueShopping": "Continúa comprando",
+    "empty": "Tu carrito está vacío",
+    "remove": "Remover",
+    "orderSummary": "Resumen de orden",
+    "checkout": "Checkout"
+  },
+  "Checkout": {
+    "title": "Verificar orden",
+    "adjustItems": "Ajustar elementos",
+    "editCart": "Editar carrito",
+    "placeOrder": "Colocar orden",
+    "disclaimer": "Al hacer clic en \"Colocar orden\", aceptas nuestros",
+    "terms": "términos y condiciones",
+    "privacy": "política de privacidad"
+  },
+  "Address": {
+    "title": "Dirección",
+    "subtitle": "Dirección de entrega",
+    "firstName": "Nombres",
+    "lastName": "Apellidos",
+    "address": "Dirección",
+    "address2": "Dirección 2 (opcional)",
+    "postalCode": "Código postal",
+    "city": "Ciudad",
+    "country": "País",
+    "phone": "Teléfono",
+    "rememberAddress": "¿Recordar dirección?",
+    "next": "Siguiente",
+    "select": "[ Seleccione ]"
+  },
+  "Email": {
+    "orderConfirmationSubject": "Orden #{orderId} - Confirmación de Orden",
+    "paymentReceiptSubject": "Orden #{orderId} - Recibo de Pago",
+    "invoiceSubject": "Factura de Orden #{orderId} - Crowdfast Store"
   }
 }

@@ -51,8 +51,46 @@
     "item": "item",
     "items": "items",
     "subtotal": "Subtotal",
-    "taxes": "Taxes",
+    "taxes": "Taxes (15%)",
     "total": "Total",
     "viewElectronicInvoice": "View Electronic Invoice"
+  },
+  "Cart": {
+    "title": "Shopping Cart",
+    "addMoreItems": "Add more items",
+    "continueShopping": "Continue shopping",
+    "empty": "Your cart is empty",
+    "remove": "Remove",
+    "orderSummary": "Order Summary",
+    "checkout": "Checkout"
+  },
+  "Checkout": {
+    "title": "Verify Order",
+    "adjustItems": "Adjust items",
+    "editCart": "Edit cart",
+    "placeOrder": "Place Order",
+    "disclaimer": "By clicking \"Place Order\", you accept our",
+    "terms": "terms and conditions",
+    "privacy": "privacy policy"
+  },
+  "Address": {
+    "title": "Address",
+    "subtitle": "Delivery Address",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "address": "Address",
+    "address2": "Address 2 (optional)",
+    "postalCode": "Postal Code",
+    "city": "City",
+    "country": "Country",
+    "phone": "Phone",
+    "rememberAddress": "Remember address?",
+    "next": "Next",
+    "select": "[ Select ]"
+  },
+  "Email": {
+    "orderConfirmationSubject": "Order #{orderId} - Order Confirmation",
+    "paymentReceiptSubject": "Order #{orderId} - Payment Receipt",
+    "invoiceSubject": "Invoice for Order #{orderId} - Crowdfast Store"
   }
 }

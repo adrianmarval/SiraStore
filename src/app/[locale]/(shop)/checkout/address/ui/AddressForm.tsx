@@ -25,9 +25,10 @@ type FormInputs = {
 interface Props {
   countries: Country[];
   userStoredAddress?: Partial<Address>;
+  locale?: string;
 }
 
-export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
+export const AddressForm = ({ countries, userStoredAddress = {}, locale = "es" }: Props) => {
   const router = useRouter();
   const {
     handleSubmit,
@@ -54,6 +55,37 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
     }
   }, [address, reset]);
 
+  const messages = {
+    es: {
+      firstName: "Nombres",
+      lastName: "Apellidos",
+      address: "Dirección",
+      address2: "Dirección 2 (opcional)",
+      postalCode: "Código postal",
+      city: "Ciudad",
+      country: "País",
+      phone: "Teléfono",
+      remember: "¿Recordar dirección?",
+      next: "Siguiente",
+      select: "[ Seleccione ]",
+    },
+    en: {
+      firstName: "First Name",
+      lastName: "Last Name",
+      address: "Address",
+      address2: "Address 2 (optional)",
+      postalCode: "Postal Code",
+      city: "City",
+      country: "Country",
+      phone: "Phone",
+      remember: "Remember address?",
+      next: "Next",
+      select: "[ Select ]",
+    },
+  };
+
+  const t = (messages as any)[locale] || messages.es;
+
   const onSubmit = async (data: FormInputs) => {
     const { rememberAddress, ...restAddress } = data;
 
@@ -71,39 +103,39 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-5">
       <div className="mb-2 flex flex-col">
-        <span>Nombres</span>
+        <span>{t.firstName}</span>
         <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("firstName", { required: true })} />
       </div>
 
       <div className="mb-2 flex flex-col">
-        <span>Apellidos</span>
+        <span>{t.lastName}</span>
         <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("lastName", { required: true })} />
       </div>
 
       <div className="mb-2 flex flex-col">
-        <span>Dirección</span>
+        <span>{t.address}</span>
         <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("address", { required: true })} />
       </div>
 
       <div className="mb-2 flex flex-col">
-        <span>Dirección 2 (opcional)</span>
+        <span>{t.address2}</span>
         <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("address2")} />
       </div>
 
       <div className="mb-2 flex flex-col">
-        <span>Código postal</span>
+        <span>{t.postalCode}</span>
         <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("postalCode", { required: true })} />
       </div>
 
       <div className="mb-2 flex flex-col">
-        <span>Ciudad</span>
+        <span>{t.city}</span>
         <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("city", { required: true })} />
       </div>
 
       <div className="mb-2 flex flex-col">
-        <span>País</span>
+        <span>{t.country}</span>
         <select className="rounded-md border bg-gray-200 p-2" {...register("country", { required: true })}>
-          <option value="">[ Seleccione ]</option>
+          <option value="">{t.select}</option>
           {countries.map((country) => (
             <option key={country.id} value={country.id}>
               {country.name}
@@ -113,7 +145,7 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
       </div>
 
       <div className="mb-2 flex flex-col">
-        <span>Teléfono</span>
+        <span>{t.phone}</span>
         <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("phone", { required: true })} />
       </div>
 
@@ -144,7 +176,7 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
             </div>
           </label>
 
-          <span>¿Recordar dirección?</span>
+          <span>{t.remember}</span>
         </div>
 
         <button
@@ -157,7 +189,7 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
             "btn-disabled": !isValid,
           })}
         >
-          Siguiente
+          {t.next}
         </button>
       </div>
     </form>

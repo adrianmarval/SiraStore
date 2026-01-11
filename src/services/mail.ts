@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { render } from "@react-email/render";
+import { getTranslations } from "next-intl/server";
 import { OrderConfirmationEmail } from "@/components/email/order-confirmation";
 import PaidOrderEmail from "@/components/email/paid-order";
 import InvoiceEmail from "@/components/email/invoice-email";
@@ -52,10 +53,11 @@ export const sentOrderConfirmationEmail = async (
       locale: locale,
     }),
   );
+  const t = await getTranslations({ locale, namespace: "Email" });
   await resend.emails.send({
     from: "Crowdfast Store <crowdfaststore@giftcardshop.app>",
     to: email,
-    subject: `Orden #${orderId.split("-")[0]} - Confirmación de Orden`,
+    subject: t("orderConfirmationSubject", { orderId: orderId.split("-")[0] }),
     html: emailHtml,
   });
 };
@@ -76,10 +78,11 @@ export const sentPaymentConfirmationEmail = async (
     }),
   );
 
+  const t = await getTranslations({ locale, namespace: "Email" });
   await resend.emails.send({
     from: "Crowdfast Store <crowdfaststore@giftcardshop.app>",
     to: email,
-    subject: `Orden #${orderId.split("-")[0]} - Recibo de Pago`,
+    subject: t("paymentReceiptSubject", { orderId: orderId.split("-")[0] }),
     html: emailHtml,
   });
 };
@@ -125,10 +128,11 @@ export const sendInvoiceEmail = async (
     }),
   );
 
+  const t = await getTranslations({ locale, namespace: "Email" });
   await resend.emails.send({
     from: "Crowdfast Store <crowdfaststore@giftcardshop.app>",
     to: email,
-    subject: `Factura de Orden #${order.id.split("-")[0]} - Crowdfast Store`,
+    subject: t("invoiceSubject", { orderId: order.id.split("-")[0] }),
     html: emailHtml,
   });
 };

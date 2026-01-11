@@ -2,10 +2,12 @@
 import { useEffect, useState } from "react";
 
 import Image from "next/image";
+import { useParams } from "next/navigation";
 
 import { useCartStore } from "@/store";
 import { ProductImage, QuantitySelector } from "@/components";
 import Link from "next/link";
+import { currencyFormat } from "@/utils";
 
 export const ProductsInCart = () => {
   const updateProductQuantity = useCartStore((state) => state.updateProductQuantity);
@@ -13,6 +15,8 @@ export const ProductsInCart = () => {
 
   const [loaded, setLoaded] = useState(false);
   const productsInCart = useCartStore((state) => state.cart);
+  const params = useParams();
+  const locale = (params.locale as string) || "es";
 
   useEffect(() => {
     setLoaded(true);
@@ -43,11 +47,11 @@ export const ProductsInCart = () => {
               {product.size} - {product.title}
             </Link>
 
-            <p>${product.price}</p>
+            <p>{currencyFormat(product.price, locale)}</p>
             <QuantitySelector quantity={product.quantity} onQuantityChanged={(quantity) => updateProductQuantity(product, quantity)} />
 
             <button onClick={() => removeProduct(product)} className="mt-3 underline">
-              Remover
+              {locale === "en" ? "Remove" : "Remover"}
             </button>
           </div>
         </div>

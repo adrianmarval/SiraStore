@@ -3,6 +3,7 @@
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { CreateOrderData, CreateOrderActions, OnApproveActions, OnApproveData } from "@paypal/paypal-js";
 import { paypalCheckPayment, setTransactionId } from "@/actions";
+import { useParams } from "next/navigation";
 
 interface Props {
   orderId: string;
@@ -11,6 +12,8 @@ interface Props {
 
 export const PayPalButton = ({ orderId, amount }: Props) => {
   const [{ isPending }] = usePayPalScriptReducer();
+  const params = useParams();
+  const locale = (params?.locale as "es" | "en") || "es";
 
   const rountedAmount = Math.round(amount * 100) / 100; //123.23
 
@@ -49,7 +52,7 @@ export const PayPalButton = ({ orderId, amount }: Props) => {
     const details = await actions.order?.capture();
     if (!details) return;
 
-    await paypalCheckPayment(details.id!);
+    await paypalCheckPayment(details.id!, locale);
   };
 
   return (
