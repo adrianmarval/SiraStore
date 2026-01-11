@@ -5,6 +5,7 @@ import { Pagination, ProductGrid, Title } from "@/components";
 
 import { Gender } from "@prisma/client";
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 interface Props {
   params: {
@@ -29,12 +30,7 @@ export default async function GenderByPage({ params, searchParams }: Props) {
     redirect(`/gender/${gender}`);
   }
 
-  const labels: Record<string, string> = {
-    men: "para hombres",
-    women: "para mujeres",
-    kid: "para niños",
-    unisex: "para todos",
-  };
+  const t = await getTranslations("Gender");
 
   // if ( id === 'kids' ) {
   //   notFound();
@@ -42,7 +38,7 @@ export default async function GenderByPage({ params, searchParams }: Props) {
 
   return (
     <>
-      <Title title={`Artículos de ${labels[gender]}`} subtitle="Todos los productos" className="mb-2" />
+      <Title title={t("title", { gender: t(gender as any) })} subtitle={t("subtitle")} className="mb-2" />
 
       <ProductGrid products={products} />
 

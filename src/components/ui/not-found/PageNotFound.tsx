@@ -1,17 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { titleFont } from "@/config/fonts";
+import { useTranslations } from "next-intl";
 
 export const PageNotFound = () => {
+  const t = useTranslations("NotFound");
+
   return (
     <div className="flex h-[800px] w-full flex-col-reverse items-center justify-center align-middle md:flex-row">
       <div className="mx-5 px-5 text-center">
         <h2 className={`${titleFont.className} text-9xl antialiased`}>404</h2>
-        <p className="text-xl font-semibold">Whoops! Lo sentimos mucho.</p>
+        <p className="text-xl font-semibold">{t("title")}</p>
         <p className="font-light">
-          <span>Puedes regresar al </span>
+          <span>{t("description")}</span>
           <Link href="/" className="font-normal transition-all hover:underline">
-            inicio
+            {t("link")}
           </Link>
         </p>
       </div>

@@ -53,7 +53,6 @@
     "subtotal": "Subtotal",
     "taxes": "Taxes ({rate}%)",
     "total": "Total",
-    "total": "Total",
     "viewElectronicInvoice": "View Electronic Invoice"
   },
   "Cart": {
@@ -257,5 +256,18 @@
       "sunday": "Sunday: Closed"
     },
     "footer": "For faster assistance, please have your order number ready when contacting us."
+  },
+  "Gender": {
+    "men": "for Men",
+    "women": "for Women",
+    "kid": "for Kids",
+    "unisex": "for All",
+    "title": "Articles {gender}",
+    "subtitle": "All products"
+  },
+  "NotFound": {
+    "title": "Whoops! We are very sorry.",
+    "description": "You can return to ",
+    "link": "home"
   }
 }

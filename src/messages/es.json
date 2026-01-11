@@ -53,7 +53,6 @@
     "subtotal": "Subtotal",
     "taxes": "Impuestos ({rate}%)",
     "total": "Total",
-    "total": "Total",
     "viewElectronicInvoice": "Ver Factura Electrónica"
   },
   "Cart": {
@@ -257,5 +256,18 @@
       "sunday": "Domingos: Cerrado"
     },
     "footer": "Para recibir asistencia más rápida, ten a mano tu número de pedido cuando nos contactes."
+  },
+  "Gender": {
+    "men": "para Hombres",
+    "women": "para Mujeres",
+    "kid": "para Niños",
+    "unisex": "para Todos",
+    "title": "Artículos {gender}",
+    "subtitle": "Todos los productos"
+  },
+  "NotFound": {
+    "title": "Whoops! Lo sentimos mucho.",
+    "description": "Puedes regresar al ",
+    "link": "inicio"
   }
 }
