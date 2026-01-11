@@ -52,6 +52,7 @@
     "items": "artículos",
     "subtotal": "Subtotal",
     "taxes": "Impuestos",
-    "total": "Total"
+    "total": "Total",
+    "viewElectronicInvoice": "Ver Factura Electrónica"
   }
 }

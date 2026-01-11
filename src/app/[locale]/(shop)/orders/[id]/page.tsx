@@ -9,6 +9,7 @@ import { getTranslations } from "next-intl/server";
 interface Props {
   params: {
     id: string;
+    locale: string;
   };
 }
 
@@ -56,7 +57,7 @@ export default async function OrdersByIdPage({ params }: Props) {
                   <p>
                     ${item.price} x {item.quantity}
                   </p>
-                  <p className="font-bold">Subtotal: {currencyFormat(item.price * item.quantity)}</p>
+                  <p className="font-bold">Subtotal: {currencyFormat(item.price * item.quantity, params.locale)}</p>
                 </div>
               </div>
             ))}
@@ -88,17 +89,30 @@ export default async function OrdersByIdPage({ params }: Props) {
               <span className="text-right">{order?.itemsInOrder === 1 ? `1 ${t("item")}` : `${order?.itemsInOrder} ${t("items")}`}</span>
 
               <span>{t("subtotal")}</span>
-              <span className="text-right">{currencyFormat(order!.subTotal)}</span>
+              <span className="text-right">{currencyFormat(order!.subTotal, params.locale)}</span>
 
               <span>{t("taxes")} (15%)</span>
-              <span className="text-right">{currencyFormat(order!.tax)}</span>
+              <span className="text-right">{currencyFormat(order!.tax, params.locale)}</span>
 
               <span className="mt-5 text-2xl">{t("total")}:</span>
-              <span className="mt-5 text-right text-2xl">{currencyFormat(order!.total)}</span>
+              <span className="mt-5 text-right text-2xl">{currencyFormat(order!.total, params.locale)}</span>
             </div>
 
             <div className="mb-2 mt-5 w-full">
-              {order?.isPaid ? <OrderStatus isPaid={order?.isPaid ?? false} /> : <PayPalButton amount={order!.total} orderId={order!.id} />}
+              {order?.isPaid ? (
+                <>
+                  <OrderStatus isPaid={order?.isPaid ?? false} />
+                  <a
+                    href={`/orders/${order!.id}/invoice`}
+                    target="_blank"
+                    className="mt-4 flex w-full items-center justify-center rounded-md bg-gray-800 py-3 text-center font-bold text-white hover:bg-gray-700"
+                  >
+                    {t("viewElectronicInvoice")}
+                  </a>
+                </>
+              ) : (
+                <PayPalButton amount={order!.total} orderId={order!.id} />
+              )}
             </div>
           </div>
         </div>

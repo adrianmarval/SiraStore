@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { PayPalOrderStatusResponse } from "@/interfaces";
 import { revalidatePath } from "next/cache";
-import { sentPaymentConfirmationEmail } from "@/services/mail";
+import { sentPaymentConfirmationEmail, sendInvoiceEmail } from "@/services/mail";
 
 export const paypalCheckPayment = async (paypalTransactionId: string) => {
   const authToken = await getPayPalBearerToken();
@@ -44,6 +44,7 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
       },
       include: {
         user: true,
+        OrderAddress: true,
         OrderItem: {
           include: {
             product: {
@@ -58,28 +59,48 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
       },
     });
 
+    // Create Invoice
+    const invoice = await prisma.invoice.create({
+      data: {
+        orderId: updatedOrder.id,
+      },
+    });
+
     // Enviar correo de pago confirmado
     try {
-      const { user, OrderItem } = updatedOrder;
+      const { user, OrderItem, OrderAddress } = updatedOrder;
       const userEmail = user.email;
 
       if (userEmail) {
-        const emailProducts = OrderItem.map((item) => {
-          const image = item.product.ProductImage[0]?.url;
-          return {
+        // Enviar Invoice Email
+        await sendInvoiceEmail(
+          userEmail,
+          {
+            id: updatedOrder.id,
+            createdAt: updatedOrder.createdAt,
+            total: updatedOrder.total,
+            subTotal: updatedOrder.subTotal,
+            tax: updatedOrder.tax,
+          },
+          {
+            firstName: OrderAddress?.firstName || "",
+            lastName: OrderAddress?.lastName || "",
+            address: OrderAddress?.address || "",
+            city: OrderAddress?.city || "",
+            postalCode: OrderAddress?.postalCode || "",
+            country: OrderAddress?.countryId || "",
+            phone: OrderAddress?.phone || "",
+          },
+          OrderItem.map((item) => ({
             title: item.product.title,
             price: item.price,
             quantity: item.quantity,
-            size: item.size,
-            image: image
-              ? image.startsWith("http")
-                ? image
-                : `${process.env.NEXT_PUBLIC_URL || "http://localhost:3000"}/products/${image}`
-              : "",
-          };
-        });
-
-        await sentPaymentConfirmationEmail(userEmail, updatedOrder.id, updatedOrder.total, emailProducts);
+            image: item.product.ProductImage[0]?.url || "",
+          })),
+          invoice.id,
+          // TODO: Get user locale from DB if available or default to "es"
+          "es",
+        );
       }
     } catch (error) {
       console.log("Error sending payment email:", error);

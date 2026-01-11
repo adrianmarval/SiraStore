@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import clsx from "clsx";
 
 import { placeOrder } from "@/actions";
@@ -10,6 +10,9 @@ import { currencyFormat } from "@/utils";
 
 export const PlaceOrder = () => {
   const router = useRouter();
+  const params = useParams();
+  const locale = (params.locale as string) || "es";
+
   const [loaded, setLoaded] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
@@ -77,13 +80,13 @@ export const PlaceOrder = () => {
         <span className="text-right">{itemsInCart === 1 ? "1 artículo" : `${itemsInCart} artículos`}</span>
 
         <span>Subtotal</span>
-        <span className="text-right">{currencyFormat(subTotal)}</span>
+        <span className="text-right">{currencyFormat(subTotal, locale)}</span>
 
         <span>Impuestos (15%)</span>
-        <span className="text-right">{currencyFormat(tax)}</span>
+        <span className="text-right">{currencyFormat(tax, locale)}</span>
 
         <span className="mt-5 text-2xl">Total:</span>
-        <span className="mt-5 text-right text-2xl">{currencyFormat(total)}</span>
+        <span className="mt-5 text-right text-2xl">{currencyFormat(total, locale)}</span>
       </div>
 
       <div className="mb-2 mt-5 w-full">

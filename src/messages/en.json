@@ -52,6 +52,7 @@
     "items": "items",
     "subtotal": "Subtotal",
     "taxes": "Taxes",
-    "total": "Total"
+    "total": "Total",
+    "viewElectronicInvoice": "View Electronic Invoice"
   }
 }

@@ -14,10 +14,14 @@ interface Props {
   searchParams: {
     page?: string;
   };
+  params: {
+    locale: string;
+  };
 }
 
-export default async function OrdersPage({ searchParams }: Props) {
+export default async function OrdersPage({ searchParams, params }: Props) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const locale = params.locale || "es";
 
   const { products, currentPage, totalPages } = await getPaginatedProductsWithImages({ page });
 
@@ -74,7 +78,7 @@ export default async function OrdersPage({ searchParams }: Props) {
                     {product.title}
                   </Link>
                 </td>
-                <td className="whitespace-nowrap px-6 py-4 text-sm font-bold text-gray-900">{currencyFormat(product.price)}</td>
+                <td className="whitespace-nowrap px-6 py-4 text-sm font-bold text-gray-900">{currencyFormat(product.price, locale)}</td>
 
                 <td className="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900">{product.gender}</td>
 

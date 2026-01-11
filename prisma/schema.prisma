@@ -127,6 +127,17 @@ model Order {
   OrderAddress OrderAddress?
 
   transactionId String?
+
+  Invoice Invoice?
+}
+
+model Invoice {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String @unique
 }
 
 model OrderItem {

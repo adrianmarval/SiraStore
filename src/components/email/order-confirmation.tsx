@@ -1,9 +1,11 @@
 import { Body, Container, Head, Heading, Html, Preview, Section, Text, Hr, Row, Column } from "@react-email/components";
 import * as React from "react";
+import { currencyFormat } from "@/utils/currencyFormat"; // Adjust import path if needed, assuming absolute imports work
 
 interface OrderConfirmationEmailProps {
   orderId: string;
   total: number;
+  locale?: "es" | "en";
   products: {
     title: string;
     price: number;
@@ -13,16 +15,46 @@ interface OrderConfirmationEmailProps {
   }[];
 }
 
-export const OrderConfirmationEmail = ({ orderId, total, products }: OrderConfirmationEmailProps) => {
+export const OrderConfirmationEmail = ({ orderId, total, locale = "es", products }: OrderConfirmationEmailProps) => {
+  const messages = {
+    es: {
+      subject: "Gracias por tu pedido",
+      title: "Confirmación de Pedido",
+      message: "¡Gracias por tu compra! Tu pedido",
+      received: "ha sido recibido exitosamente.",
+      quantity: "Cantidad:",
+      total: "Total:",
+      policyTitle: "¿Cómo puedo verificar el estado de mi pedido?",
+      policyText:
+        "Cuando su pedido se haya enviado, recibirá una notificación por correo electrónico con un número de seguimiento para consultar su estado. La información de seguimiento tardará 48 horas en estar disponible.",
+      footer: "Si tienes alguna pregunta, no dudes en contactarnos.",
+    },
+    en: {
+      subject: "Thank you for your order",
+      title: "Order Confirmation",
+      message: "Thank you for your purchase! Your order",
+      received: "has been received successfully.",
+      quantity: "Quantity:",
+      total: "Total:",
+      policyTitle: "How can I check my order status?",
+      policyText:
+        "When your order ships, you will receive an email notification with a tracking number to check its status. Tracking information will be available within 48 hours.",
+      footer: "If you have any questions, feel free to contact us.",
+    },
+  };
+
+  const t = messages[locale] || messages.es;
+  const currency = "USD";
+
   return (
     <Html>
       <Head />
-      <Preview>Gracias por tu pedido en Crowdfast Store</Preview>
+      <Preview>{t.subject}</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Heading style={h1}>Confirmación de Pedido</Heading>
+          <Heading style={h1}>{t.title}</Heading>
           <Text style={text}>
-            ¡Gracias por tu compra! Tu pedido <strong>#{orderId.split("-")[0]}</strong> ha sido recibido exitosamente.
+            {t.message} <strong>#{orderId.split("-")[0]}</strong> {t.received}
           </Text>
 
           <Section>
@@ -35,10 +67,12 @@ export const OrderConfirmationEmail = ({ orderId, total, products }: OrderConfir
                   <Text style={productTitle}>
                     {product.title} ({product.size})
                   </Text>
-                  <Text style={productRef}>Cantidad: {product.quantity}</Text>
+                  <Text style={productRef}>
+                    {t.quantity} {product.quantity}
+                  </Text>
                 </Column>
                 <Column style={{ textAlign: "right" }}>
-                  <Text style={productPrice}>${(product.price * product.quantity).toFixed(2)}</Text>
+                  <Text style={productPrice}>{currencyFormat(product.price * product.quantity, locale, currency)}</Text>
                 </Column>
               </Row>
             ))}
@@ -49,10 +83,10 @@ export const OrderConfirmationEmail = ({ orderId, total, products }: OrderConfir
           <Section>
             <Row>
               <Column>
-                <Text style={totalLabel}>Total:</Text>
+                <Text style={totalLabel}>{t.total}</Text>
               </Column>
               <Column style={{ textAlign: "right" }}>
-                <Text style={totalPrice}>${total.toFixed(2)}</Text>
+                <Text style={totalPrice}>{currencyFormat(total, locale, currency)}</Text>
               </Column>
             </Row>
           </Section>
@@ -61,15 +95,12 @@ export const OrderConfirmationEmail = ({ orderId, total, products }: OrderConfir
 
           <Section style={policySection}>
             <Heading as="h3" style={h3}>
-              ¿Cómo puedo verificar el estado de mi pedido?
+              {t.policyTitle}
             </Heading>
-            <Text style={policyText}>
-              Cuando su pedido se haya enviado, recibirá una notificación por correo electrónico con un número de seguimiento para consultar
-              su estado. La información de seguimiento tardará 48 horas en estar disponible.
-            </Text>
+            <Text style={policyText}>{t.policyText}</Text>
           </Section>
 
-          <Text style={footer}>Si tienes alguna pregunta, no dudes en contactarnos.</Text>
+          <Text style={footer}>{t.footer}</Text>
         </Container>
       </Body>
     </Html>
@@ -95,12 +126,14 @@ const h1 = {
   margin: "40px 0",
   padding: "0",
   textAlign: "center" as const,
+  marginBottom: "30px",
 };
 
 const text = {
   color: "#333",
   fontSize: "16px",
   lineHeight: "26px",
+  marginBottom: "20px",
 };
 
 const productTitle = {

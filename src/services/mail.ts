@@ -2,6 +2,7 @@ import { Resend } from "resend";
 import { render } from "@react-email/render";
 import { OrderConfirmationEmail } from "@/components/email/order-confirmation";
 import PaidOrderEmail from "@/components/email/paid-order";
+import InvoiceEmail from "@/components/email/invoice-email";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -41,12 +42,14 @@ export const sentOrderConfirmationEmail = async (
   orderId: string,
   total: number,
   products: { title: string; price: number; quantity: number; size: string; image: string }[],
+  locale: "es" | "en" = "es",
 ) => {
   const emailHtml = await render(
     OrderConfirmationEmail({
       orderId: orderId,
       total: total,
       products: products,
+      locale: locale,
     }),
   );
   await resend.emails.send({
@@ -62,12 +65,14 @@ export const sentPaymentConfirmationEmail = async (
   orderId: string,
   total: number,
   products: { title: string; price: number; quantity: number; size: string; image: string }[],
+  locale: "es" | "en" = "es",
 ) => {
   const emailHtml = await render(
     PaidOrderEmail({
       orderId: orderId,
       total: total,
       products: products,
+      locale: locale,
     }),
   );
 
@@ -75,6 +80,55 @@ export const sentPaymentConfirmationEmail = async (
     from: "Crowdfast Store <crowdfaststore@giftcardshop.app>",
     to: email,
     subject: `Orden #${orderId.split("-")[0]} - Recibo de Pago`,
+    html: emailHtml,
+  });
+};
+
+export const sendInvoiceEmail = async (
+  email: string,
+  order: {
+    id: string;
+    createdAt: Date;
+    total: number;
+    subTotal: number;
+    tax: number;
+  },
+  billingAddress: {
+    firstName: string;
+    lastName: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    phone: string;
+  },
+  products: {
+    title: string;
+    price: number;
+    quantity: number;
+    image: string;
+  }[],
+  invoiceId: number,
+  locale: "es" | "en" = "es",
+) => {
+  const emailHtml = await render(
+    InvoiceEmail({
+      orderId: order.id,
+      invoiceId: invoiceId,
+      locale: locale,
+      orderDate: order.createdAt,
+      billingAddress: billingAddress,
+      products: products,
+      subTotal: order.subTotal,
+      tax: order.tax,
+      total: order.total,
+    }),
+  );
+
+  await resend.emails.send({
+    from: "Crowdfast Store <crowdfaststore@giftcardshop.app>",
+    to: email,
+    subject: `Factura de Orden #${order.id.split("-")[0]} - Crowdfast Store`,
     html: emailHtml,
   });
 };

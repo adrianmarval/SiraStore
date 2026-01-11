@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 import Image from "next/image";
 
@@ -10,6 +11,8 @@ import { currencyFormat } from "@/utils";
 export const ProductsInCart = () => {
   const [loaded, setLoaded] = useState(false);
   const productsInCart = useCartStore((state) => state.cart);
+  const params = useParams();
+  const locale = (params.locale as string) || "es";
 
   useEffect(() => {
     setLoaded(true);
@@ -40,7 +43,7 @@ export const ProductsInCart = () => {
               {product.size} - {product.title} ({product.quantity})
             </span>
 
-            <p className="font-bold">{currencyFormat(product.price * product.quantity)}</p>
+            <p className="font-bold">{currencyFormat(product.price * product.quantity, locale)}</p>
           </div>
         </div>
       ))}
