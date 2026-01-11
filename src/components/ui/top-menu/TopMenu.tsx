@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 
-import { IoCartOutline, IoCloseOutline } from "react-icons/io5";
+import { IoCartOutline, IoCloseOutline, IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
+import { useTheme } from "next-themes";
 import { useSearchParams } from "next/navigation";
 
 import { titleFont } from "@/config/fonts";
@@ -15,6 +16,7 @@ export const TopMenu = () => {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
+  const { setTheme, resolvedTheme } = useTheme();
   // useSearchParams stays from next/navigation as next-intl doesn't wrap it directly in typical setup,
   // but let's check if I need to import it from next/navigation.
   // Yes, I deleted the import above. Let me re-add useSearchParams from next/navigation.
@@ -47,13 +49,13 @@ export const TopMenu = () => {
 
       {/* Center Menu */}
       <div className="hidden sm:block">
-        <Link className="m-2 rounded-md p-2 transition-all hover:bg-gray-100" href="/gender/men">
+        <Link className="m-2 rounded-md p-2 transition-all hover:bg-accent" href="/gender/men">
           {t("men")}
         </Link>
-        <Link className="m-2 rounded-md p-2 transition-all hover:bg-gray-100" href="/gender/women">
+        <Link className="m-2 rounded-md p-2 transition-all hover:bg-accent" href="/gender/women">
           {t("women")}
         </Link>
-        <Link className="m-2 rounded-md p-2 transition-all hover:bg-gray-100" href="/gender/kid">
+        <Link className="m-2 rounded-md p-2 transition-all hover:bg-accent" href="/gender/kid">
           {t("kids")}
         </Link>
       </div>
@@ -69,7 +71,7 @@ export const TopMenu = () => {
             type="text"
             placeholder={t("search")}
             value={term}
-            className="w-full rounded-md border border-gray-100 bg-gray-100 px-2 py-1 transition-all focus:border-blue-500 focus:outline-none"
+            className="w-full rounded-md border border-input bg-muted px-2 py-1 transition-all focus:border-blue-500 focus:outline-none"
             onChange={(e) => {
               const newTerm = e.target.value;
               setTerm(newTerm);
@@ -109,7 +111,7 @@ export const TopMenu = () => {
                   router.replace(`${pathname}`);
                 }
               }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
             >
               <IoCloseOutline className="h-5 w-5" />
             </button>
@@ -127,21 +129,31 @@ export const TopMenu = () => {
           </div>
         </Link>
 
-        <button onClick={openSideMenu} className="m-2 rounded-md p-2 transition-all hover:bg-gray-100">
+        <button onClick={openSideMenu} className="m-2 rounded-md p-2 transition-all hover:bg-accent">
           {t("menu")}
         </button>
+
+        {/* Theme Toggle */}
+        {loaded && (
+          <button
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            className="m-2 rounded-md p-2 transition-all hover:bg-accent"
+          >
+            {resolvedTheme === "dark" ? <IoSunnyOutline className="h-5 w-5" /> : <IoMoonOutline className="h-5 w-5" />}
+          </button>
+        )}
 
         {/* Language Switcher */}
         <div className="mx-2 flex items-center gap-2">
           <button
             onClick={() => router.replace(pathname, { locale: "en" })}
-            className={`rounded px-2 py-1 ${locale === "en" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+            className={`rounded px-2 py-1 ${locale === "en" ? "bg-blue-600 text-white" : "bg-muted"}`}
           >
             EN
           </button>
           <button
             onClick={() => router.replace(pathname, { locale: "es" })}
-            className={`rounded px-2 py-1 ${locale === "es" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+            className={`rounded px-2 py-1 ${locale === "es" ? "bg-blue-600 text-white" : "bg-muted"}`}
           >
             ES
           </button>

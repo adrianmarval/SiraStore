@@ -9,7 +9,7 @@ export default function ContactPage() {
       <Title title={t("title")} subtitle={t("subtitle")} />
 
       <div className="mx-auto grid max-w-[800px] grid-cols-1 gap-8 md:grid-cols-2">
-        <div className="rounded-lg bg-gray-100 p-6 shadow-sm">
+        <div className="rounded-lg bg-muted p-6 shadow-sm">
           <h3 className="mb-4 text-xl font-bold">{t("support.title")}</h3>
           <p className="mb-4">{t("support.content")}</p>
 
@@ -48,7 +48,7 @@ export default function ContactPage() {
           <p>{t("businessHours.sunday")}</p>
 
           <div className="mt-8">
-            <p className="text-sm text-gray-500">{t("footer")}</p>
+            <p className="text-sm text-muted-foreground">{t("footer")}</p>
           </div>
         </div>
       </div>

@@ -40,7 +40,7 @@ export const Sidebar = () => {
       {/* Sidemenu */}
       <nav
         aria-label="Sidebar Navigation"
-        className={clsx("fixed right-0 top-0 z-20 h-screen w-[500px] transform bg-white p-5 shadow-2xl transition-all duration-300", {
+        className={clsx("fixed right-0 top-0 z-20 h-screen w-[500px] transform bg-background p-5 shadow-2xl transition-all duration-300", {
           "translate-x-full": !isSideMenuOpen,
         })}
       >
@@ -52,7 +52,7 @@ export const Sidebar = () => {
           <input
             type="text"
             placeholder={t("search")}
-            className="w-full rounded border-b-2 border-gray-200 bg-gray-50 py-1 pl-10 pr-10 text-xl focus:border-blue-500 focus:outline-none"
+            className="w-full rounded border-b-2 border-input bg-muted py-1 pl-10 pr-10 text-xl focus:border-blue-500 focus:outline-none"
           />
         </div>
 
@@ -63,7 +63,7 @@ export const Sidebar = () => {
             <Link
               href="/profile"
               onClick={() => closeMenu()}
-              className="mt-10 flex items-center rounded p-2 transition-all hover:bg-gray-100"
+              className="mt-10 flex items-center rounded p-2 transition-all hover:bg-accent hover:text-accent-foreground"
             >
               <IoPersonOutline size={30} />
               <span className="ml-3 text-xl">{t("profile")}</span>
@@ -72,7 +72,7 @@ export const Sidebar = () => {
             <Link
               href="/orders"
               onClick={() => closeMenu()}
-              className="mt-10 flex items-center rounded p-2 transition-all hover:bg-gray-100"
+              className="mt-10 flex items-center rounded p-2 transition-all hover:bg-accent hover:text-accent-foreground"
             >
               <IoTicketOutline size={30} />
               <span className="ml-3 text-xl">{t("orders")}</span>
@@ -82,7 +82,7 @@ export const Sidebar = () => {
 
         {isAuthenticated && (
           <button
-            className="mt-10 flex w-full items-center rounded p-2 transition-all hover:bg-gray-100"
+            className="mt-10 flex w-full items-center rounded p-2 transition-all hover:bg-accent hover:text-accent-foreground"
             onClick={() => logout().then(() => window.location.reload())}
           >
             <IoLogOutOutline size={30} />
@@ -93,7 +93,7 @@ export const Sidebar = () => {
         {!isAuthenticated && (
           <Link
             href="/auth/login"
-            className="mt-10 flex items-center rounded p-2 transition-all hover:bg-gray-100"
+            className="mt-10 flex items-center rounded p-2 transition-all hover:bg-accent hover:text-accent-foreground"
             onClick={() => closeMenu()}
           >
             <IoLogInOutline size={30} />
@@ -104,12 +104,12 @@ export const Sidebar = () => {
         {isAdmin && (
           <>
             {/* Line Separator */}
-            <div className="my-10 h-px w-full bg-gray-200" />
+            <div className="my-10 h-px w-full bg-border" />
 
             <Link
               href="/admin/products"
               onClick={() => closeMenu()}
-              className="mt-10 flex items-center rounded p-2 transition-all hover:bg-gray-100"
+              className="mt-10 flex items-center rounded p-2 transition-all hover:bg-accent hover:text-accent-foreground"
             >
               <IoShirtOutline size={30} />
               <span className="ml-3 text-xl">{t("products")}</span>
@@ -118,7 +118,7 @@ export const Sidebar = () => {
             <Link
               href="/admin/orders"
               onClick={() => closeMenu()}
-              className="mt-10 flex items-center rounded p-2 transition-all hover:bg-gray-100"
+              className="mt-10 flex items-center rounded p-2 transition-all hover:bg-accent hover:text-accent-foreground"
             >
               <IoTicketOutline size={30} />
               <span className="ml-3 text-xl">{t("orders")}</span>
@@ -127,7 +127,7 @@ export const Sidebar = () => {
             <Link
               href="/admin/users"
               onClick={() => closeMenu()}
-              className="mt-10 flex items-center rounded p-2 transition-all hover:bg-gray-100"
+              className="mt-10 flex items-center rounded p-2 transition-all hover:bg-accent hover:text-accent-foreground"
             >
               <IoPeopleOutline size={30} />
               <span className="ml-3 text-xl">{t("users")}</span>

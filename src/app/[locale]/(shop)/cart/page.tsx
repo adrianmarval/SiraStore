@@ -32,7 +32,7 @@ export default async function CartPage({ params }: Props) {
           </div>
 
           {/* Checkout - Resumen de orden */}
-          <div className="h-fit rounded-xl bg-white p-7 shadow-xl">
+          <div className="h-fit rounded-xl bg-card p-7 shadow-xl">
             <h2 className="mb-2 text-2xl">{t("orderSummary")}</h2>
 
             <OrderSummary />

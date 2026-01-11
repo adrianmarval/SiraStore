@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { placeOrder } from "@/actions";
 import { useAddressStore, useCartStore } from "@/store";
 import { currencyFormat } from "@/utils";
+import { TAX_RATE } from "@/config/constants";
 import { useTranslations } from "next-intl";
 
 export const PlaceOrder = () => {
@@ -58,7 +59,7 @@ export const PlaceOrder = () => {
   }
 
   return (
-    <div className="rounded-xl bg-white p-7 shadow-xl">
+    <div className="rounded-xl bg-card p-7 shadow-xl">
       <h2 className="mb-2 text-2xl">{tOrder("deliveryAddress")}</h2>
       <div className="mb-10">
         <p className="text-xl">
@@ -74,7 +75,7 @@ export const PlaceOrder = () => {
       </div>
 
       {/* Divider */}
-      <div className="mb-10 h-0.5 w-full rounded bg-gray-200" />
+      <div className="mb-10 h-0.5 w-full rounded bg-border" />
 
       <h2 className="mb-2 text-2xl">{tOrder("orderSummary")}</h2>
 
@@ -85,7 +86,7 @@ export const PlaceOrder = () => {
         <span>{tOrder("subtotal")}</span>
         <span className="text-right">{currencyFormat(subTotal, locale)}</span>
 
-        <span>{tOrder("taxes")}</span>
+        <span>{tOrder("taxes", { rate: TAX_RATE * 100 })}</span>
         <span className="text-right">{currencyFormat(tax, locale)}</span>
 
         <span className="mt-5 text-2xl">{tOrder("total")}</span>

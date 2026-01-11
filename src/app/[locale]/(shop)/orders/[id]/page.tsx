@@ -64,7 +64,7 @@ export default async function OrdersByIdPage({ params }: Props) {
           </div>
 
           {/* Checkout - Resumen de orden */}
-          <div className="rounded-xl bg-white p-7 shadow-xl">
+          <div className="rounded-xl bg-card p-7 shadow-xl">
             <h2 className="mb-2 text-2xl">{t("deliveryAddress")}</h2>
             <div className="mb-10">
               <p className="text-xl">
@@ -80,7 +80,7 @@ export default async function OrdersByIdPage({ params }: Props) {
             </div>
 
             {/* Divider */}
-            <div className="mb-10 h-0.5 w-full rounded bg-gray-200" />
+            <div className="mb-10 h-0.5 w-full rounded bg-border" />
 
             <h2 className="mb-2 text-2xl">{t("orderSummary")}</h2>
 

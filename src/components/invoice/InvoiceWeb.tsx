@@ -65,10 +65,10 @@ export const InvoiceWeb = ({
   </div>;
 
   return (
-    <div className="min-h-screen bg-gray-100 px-4 py-10 sm:px-6 lg:px-8 print:bg-white print:p-0">
-      <div className="mx-auto max-w-4xl overflow-hidden rounded-lg bg-white shadow-xl print:max-w-none print:shadow-none">
+    <div className="min-h-screen bg-muted px-4 py-10 sm:px-6 lg:px-8 print:bg-white print:p-0">
+      <div className="mx-auto max-w-4xl overflow-hidden rounded-lg bg-card shadow-xl print:max-w-none print:shadow-none">
         {/* Actions Bar (Hidden on print) */}
-        <div className="flex justify-end border-b border-gray-200 bg-gray-50 px-8 py-4 print:hidden">
+        <div className="flex justify-end border-b border-border bg-muted/50 px-8 py-4 print:hidden">
           <button
             onClick={handlePrint}
             className="flex items-center gap-2 rounded bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700"
@@ -83,25 +83,25 @@ export const InvoiceWeb = ({
           {/* Header */}
           <div className="mb-12 flex flex-col items-start justify-between sm:flex-row">
             <div>
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900">{t.title}</h1>
-              <p className="mt-1 text-gray-500">{t.officialDoc}</p>
+              <h1 className="text-4xl font-bold tracking-tight text-foreground">{t.title}</h1>
+              <p className="mt-1 text-muted-foreground">{t.officialDoc}</p>
             </div>
             <div className="mt-4 text-right sm:mt-0">
-              <p className="text-lg font-semibold text-gray-900">
+              <p className="text-lg font-semibold text-foreground">
                 {t.order} {orderId.split("-")[0]}
               </p>
-              <p className="text-gray-600">{formattedDate}</p>
+              <p className="text-muted-foreground">{formattedDate}</p>
             </div>
           </div>
 
-          <div className="my-8 border-t border-gray-200"></div>
+          <div className="my-8 border-t border-border"></div>
 
           {/* Addresses */}
           <div className="mb-12 grid grid-cols-1 gap-8 sm:grid-cols-2">
             <div>
-              <h2 className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">{t.billedTo}</h2>
-              <div className="leading-relaxed text-gray-700">
-                <p className="text-lg font-semibold text-gray-900">
+              <h2 className="mb-4 text-xs font-bold uppercase tracking-wider text-muted-foreground">{t.billedTo}</h2>
+              <div className="leading-relaxed text-foreground/80">
+                <p className="text-lg font-semibold text-foreground">
                   {billingAddress.firstName} {billingAddress.lastName}
                 </p>
                 <p>{billingAddress.address}</p>
@@ -113,9 +113,9 @@ export const InvoiceWeb = ({
               </div>
             </div>
             <div className="sm:text-right">
-              <h2 className="mb-4 text-xs font-bold uppercase tracking-wider text-gray-400">{t.from}</h2>
-              <div className="leading-relaxed text-gray-700">
-                <p className="text-lg font-semibold text-gray-900">CrowdFast Store</p>
+              <h2 className="mb-4 text-xs font-bold uppercase tracking-wider text-muted-foreground">{t.from}</h2>
+              <div className="leading-relaxed text-foreground/80">
+                <p className="text-lg font-semibold text-foreground">CrowdFast Store</p>
                 <p>123 Business Street</p>
                 <p>City, Country</p>
                 <p>support@crowdfast.store</p>
@@ -127,27 +127,27 @@ export const InvoiceWeb = ({
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-400">{t.product}</th>
-                  <th className="px-4 py-3 text-center text-xs font-bold uppercase tracking-wider text-gray-400">{t.quantity}</th>
-                  <th className="px-4 py-3 text-right text-xs font-bold uppercase tracking-wider text-gray-400">{t.price}</th>
-                  <th className="px-4 py-3 text-right text-xs font-bold uppercase tracking-wider text-gray-400">{t.total}</th>
+                <tr className="border-b border-border">
+                  <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">{t.product}</th>
+                  <th className="px-4 py-3 text-center text-xs font-bold uppercase tracking-wider text-muted-foreground">{t.quantity}</th>
+                  <th className="px-4 py-3 text-right text-xs font-bold uppercase tracking-wider text-muted-foreground">{t.price}</th>
+                  <th className="px-4 py-3 text-right text-xs font-bold uppercase tracking-wider text-muted-foreground">{t.total}</th>
                 </tr>
               </thead>
               <tbody>
                 {products.map((product, index) => (
-                  <tr key={index} className="border-b border-gray-100 transition-colors hover:bg-gray-50">
+                  <tr key={index} className="border-b border-border transition-colors hover:bg-accent/50">
                     <td className="px-4 py-4">
                       <div className="flex items-center">
                         <div className="relative mr-4 h-10 w-10 flex-shrink-0">
                           {product.image && <Image src={product.image} alt={product.title} fill className="rounded-md object-cover" />}
                         </div>
-                        <span className="font-medium text-gray-900">{product.title}</span>
+                        <span className="font-medium text-foreground">{product.title}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-4 text-center text-gray-700">{product.quantity}</td>
-                    <td className="px-4 py-4 text-right text-gray-700">{currencyFormat(product.price, locale)}</td>
-                    <td className="px-4 py-4 text-right font-medium text-gray-900">
+                    <td className="px-4 py-4 text-center text-foreground">{product.quantity}</td>
+                    <td className="px-4 py-4 text-right text-foreground">{currencyFormat(product.price, locale)}</td>
+                    <td className="px-4 py-4 text-right font-medium text-foreground">
                       {currencyFormat(product.price * product.quantity, locale)}
                     </td>
                   </tr>
@@ -160,24 +160,24 @@ export const InvoiceWeb = ({
           <div className="mt-12 flex justify-end">
             <div className="w-full sm:w-1/2 lg:w-1/3">
               <div className="flex justify-between py-2">
-                <span className="text-gray-600">{t.subtotal}</span>
-                <span className="font-medium text-gray-900">{currencyFormat(subTotal, locale)}</span>
+                <span className="text-muted-foreground">{t.subtotal}</span>
+                <span className="font-medium text-foreground">{currencyFormat(subTotal, locale)}</span>
               </div>
-              <div className="flex justify-between border-b border-gray-200 py-2">
-                <span className="text-gray-600">{t.taxes.replace("{rate}", calculatedTaxRate.toString())}</span>
-                <span className="font-medium text-gray-900">{currencyFormat(tax, locale)}</span>
+              <div className="flex justify-between border-b border-border py-2">
+                <span className="text-muted-foreground">{t.taxes.replace("{rate}", calculatedTaxRate.toString())}</span>
+                <span className="font-medium text-foreground">{currencyFormat(tax, locale)}</span>
               </div>
               <div className="flex justify-between py-4">
-                <span className="text-lg font-bold text-gray-900">{t.total}</span>
+                <span className="text-lg font-bold text-foreground">{t.total}</span>
                 <span className="text-lg font-bold text-blue-600">{currencyFormat(total, locale)}</span>
               </div>
             </div>
           </div>
 
-          <div className="my-12 border-t border-gray-200"></div>
+          <div className="my-12 border-t border-border"></div>
 
           {/* Footer */}
-          <div className="text-center text-sm text-gray-500">
+          <div className="text-center text-sm text-muted-foreground">
             <p className="mb-2">{t.webFooter1}</p>
             <p>{t.webFooter2}</p>
           </div>

@@ -104,37 +104,57 @@ export const AddressForm = ({ countries, userStoredAddress = {}, locale = "es" }
     <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-5">
       <div className="mb-2 flex flex-col">
         <span>{t.firstName}</span>
-        <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("firstName", { required: true })} />
+        <input
+          type="text"
+          className="rounded-md border border-border bg-muted p-2 text-foreground"
+          {...register("firstName", { required: true })}
+        />
       </div>
 
       <div className="mb-2 flex flex-col">
         <span>{t.lastName}</span>
-        <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("lastName", { required: true })} />
+        <input
+          type="text"
+          className="rounded-md border border-border bg-muted p-2 text-foreground"
+          {...register("lastName", { required: true })}
+        />
       </div>
 
       <div className="mb-2 flex flex-col">
         <span>{t.address}</span>
-        <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("address", { required: true })} />
+        <input
+          type="text"
+          className="rounded-md border border-border bg-muted p-2 text-foreground"
+          {...register("address", { required: true })}
+        />
       </div>
 
       <div className="mb-2 flex flex-col">
         <span>{t.address2}</span>
-        <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("address2")} />
+        <input type="text" className="rounded-md border border-border bg-muted p-2 text-foreground" {...register("address2")} />
       </div>
 
       <div className="mb-2 flex flex-col">
         <span>{t.postalCode}</span>
-        <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("postalCode", { required: true })} />
+        <input
+          type="text"
+          className="rounded-md border border-border bg-muted p-2 text-foreground"
+          {...register("postalCode", { required: true })}
+        />
       </div>
 
       <div className="mb-2 flex flex-col">
         <span>{t.city}</span>
-        <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("city", { required: true })} />
+        <input
+          type="text"
+          className="rounded-md border border-border bg-muted p-2 text-foreground"
+          {...register("city", { required: true })}
+        />
       </div>
 
       <div className="mb-2 flex flex-col">
         <span>{t.country}</span>
-        <select className="rounded-md border bg-gray-200 p-2" {...register("country", { required: true })}>
+        <select className="rounded-md border border-border bg-muted p-2 text-foreground" {...register("country", { required: true })}>
           <option value="">{t.select}</option>
           {countries.map((country) => (
             <option key={country.id} value={country.id}>
@@ -146,7 +166,11 @@ export const AddressForm = ({ countries, userStoredAddress = {}, locale = "es" }
 
       <div className="mb-2 flex flex-col">
         <span>{t.phone}</span>
-        <input type="text" className="rounded-md border bg-gray-200 p-2" {...register("phone", { required: true })} />
+        <input
+          type="text"
+          className="rounded-md border border-border bg-muted p-2 text-foreground"
+          {...register("phone", { required: true })}
+        />
       </div>
 
       <div className="mb-2 flex flex-col sm:mt-1">

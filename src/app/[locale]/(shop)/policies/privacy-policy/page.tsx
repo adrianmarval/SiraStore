@@ -8,7 +8,7 @@ export default function PrivacyPolicyPage() {
     <div className="mb-10 px-5">
       <Title title={t("title")} subtitle={t("subtitle")} />
 
-      <div className="mx-auto max-w-[800px] space-y-6 text-gray-700">
+      <div className="mx-auto max-w-[800px] space-y-6 text-foreground">
         <section>
           <h2 className="mb-2 text-xl font-bold">{t("sections.introduction.title")}</h2>
           <p>{t("sections.introduction.content")}</p>
