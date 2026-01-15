@@ -56,6 +56,11 @@ const config: Config = {
           "5": "hsl(var(--chart-5))",
         },
       },
+      fontFamily: {
+        space: ["var(--font-space-grotesk)", "sans-serif"],
+        manrope: ["var(--font-manrope)", "sans-serif"],
+        noto: ["var(--font-noto-sans)", "sans-serif"],
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
