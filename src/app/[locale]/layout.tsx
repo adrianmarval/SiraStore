@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { inter } from "@/config/fonts";
+import { spaceGrotesk, manrope, notoSans } from "@/config/design-fonts";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 
@@ -36,7 +37,13 @@ export default async function RootLayout({ children, params: { locale } }: { chi
 
   return (
     <html lang={locale}>
-      <body className={inter.className}>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className={`${inter.className} ${spaceGrotesk.variable} ${manrope.variable} ${notoSans.variable}`}>
         <NextIntlClientProvider messages={messages}>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>
